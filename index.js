@@ -1,5 +1,6 @@
 window.addEventListener("DOMContentLoaded", () => {
   const apiKey = "57ee032a9e12755d06c48556971c5fb0";
+
   function getLocalStorage() {
     const cityInput = localStorage.getItem("city");
     document.getElementById("cityInput").value = cityInput;
@@ -7,8 +8,9 @@ window.addEventListener("DOMContentLoaded", () => {
     getWeather();
   }
 
-  getLocalStorage();
-
+  if (localStorage.getItem("city")) {
+    getLocalStorage();
+  }
   async function getWeather() {
     try {
       const cityInput = document.getElementById("cityInput").value;
@@ -29,6 +31,7 @@ window.addEventListener("DOMContentLoaded", () => {
       <h2>Today</h2>
       <img src="${iconUrl}">
       <p>${data.weather[0].description}</p>
+      </br>
       <p id="forecast-description">
         ${data.name}: ${data.main.temp} C
       </p>
@@ -36,18 +39,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
       const weather = document.getElementById("weather");
       weather.innerHTML = result;
-      // weather.style.textAlign = "center";
-      // weather.style.color = "goldenrod";
-      // weather.style.fontSize = "1.2rem";
-      // weather.style.fontWeight = "bold";
     } catch (error) {
       console.log(error);
-      const errorMessage = "Please enter a valid german city name!";
-      weather.innerHTML = errorMessage;
-      weather.style.color = "red";
-      weather.style.fontSize = "1.5rem";
-      weather.style.fontWeight = "bold";
-      weather.style.textAlign = "center";
+      const errorMessage = "Please enter a valid german city!";
+      cityInput.placeholder = errorMessage;
     }
   }
 
@@ -94,8 +89,10 @@ window.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("forecastBtn").addEventListener("click", (e) => {
     e.preventDefault();
+
     getWeather();
     getForecast();
     setLocalStorage();
   });
 });
+console.log(localStorage.getItem("city"));
