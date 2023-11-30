@@ -1,16 +1,20 @@
 window.addEventListener("DOMContentLoaded", () => {
+  // API key im variable Speichern
   const apiKey = "57ee032a9e12755d06c48556971c5fb0";
 
+  //LocalStorage beladen-async functions durchführen mit beladete daten
   function getLocalStorage() {
     const cityInput = localStorage.getItem("city");
     document.getElementById("cityInput").value = cityInput;
     getForecast();
     getWeather();
   }
-
+  // wenn gibt es ein city in local storage, dann getLocalStorage() ausführen
   if (localStorage.getItem("city")) {
     getLocalStorage();
   }
+
+  // async function für current weather data
   async function getWeather() {
     try {
       const cityInput = document.getElementById("cityInput").value;
@@ -30,8 +34,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const result = `
       <h2>Today</h2>
       <img src="${iconUrl}">
-      <p>${data.weather[0].description}</p>
-      </br>
+      <p class=" weather-p1">${data.weather[0].description}</p>
       <p id="forecast-description">
         ${data.name}: ${data.main.temp} C
       </p>
@@ -45,17 +48,17 @@ window.addEventListener("DOMContentLoaded", () => {
       cityInput.placeholder = errorMessage;
     }
   }
-
+  // asnyc function für 5 day forecast/ momentan bis zu 2 tage möglich zu zeigen
   async function getForecast() {
     try {
-      // const apiKey = "57ee032a9e12755d06c48556971c5fb0";
+      const apiKey = "57ee032a9e12755d06c48556971c5fb0";
       const cityInput = document.getElementById("cityInput").value;
       const API_URL_FORECAST = `https://api.openweathermap.org/data/2.5/forecast?q=${cityInput},DE&appid=${apiKey}&units=metric`;
 
       const response = await fetch(API_URL_FORECAST);
       const data = await response.json();
       console.log(data);
-      console.log(data.city.name);
+
       const iconUrlTomorrow = `https://openweathermap.org/img/wn/${data.list[7].weather[0].icon}@4x.png`;
       const iconUrlAfterTom = `https://openweathermap.org/img/wn/${data.list[16].weather[0].icon}@4x.png`;
       const result = `
@@ -75,18 +78,18 @@ window.addEventListener("DOMContentLoaded", () => {
       </div>`;
       const forecast = document.querySelector(".forecast-container");
       forecast.innerHTML = result;
+
       // console.log(forecast);
     } catch (error) {
       console.log(error);
     }
   }
-  // debugger;
-
+  // function für die Daten ins local storage speichern
   function setLocalStorage() {
     const cityInput = document.getElementById("cityInput").value;
     localStorage.setItem("city", cityInput);
   }
-
+  //  Event Listener für Button erstellen-damit functions ausgeführt werden
   document.getElementById("forecastBtn").addEventListener("click", (e) => {
     e.preventDefault();
 
@@ -95,4 +98,3 @@ window.addEventListener("DOMContentLoaded", () => {
     setLocalStorage();
   });
 });
-console.log(localStorage.getItem("city"));

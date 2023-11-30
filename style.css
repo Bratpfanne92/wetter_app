@@ -1,3 +1,4 @@
+/* Searchfeld container style */
 body {
   background-color: #333;
   color: #fff;
@@ -37,7 +38,7 @@ h1 {
   text-align: center;
   color: goldenrod;
 }
-
+/* Info List Style */
 .forecast-container {
   display: flex;
   flex-wrap: wrap;
@@ -60,6 +61,11 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  text-align: center;
   width: 200px;
   height: 200px;
+}
+
+#weather p {
+  width: 100%;
 }
